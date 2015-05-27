@@ -25,7 +25,7 @@ if (Meteor.isServer) {
      var googleSpreadSheetId = "1PoHE1IGgLMLbvRrHT3m0Ya4vnpWs58lnyr0dWH3-2E4";
       Meteor.setTimeout(function(){
         Language.init(googleSpreadSheetId);
-        console.log(Language.get("body.clickMe","hi"));
+        // console.log(Language.get("body.clickMe","hi"));
       },100);
 
   });

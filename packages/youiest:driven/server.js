@@ -35,13 +35,14 @@ var validKey = function(key){
 		&& key != "content" 
 		&& key != "save" 
 		&& key != "del"
+		&& key.charAt(key.length-1) != "m"
 		){
 		return true;
 	}
 	else
 		return false;
 }
-var objectValue = function(key,obj,value){
+var objectValue = function(key,obj,value, mValue){
 	key = key.split(".");
 	var local = obj;
 	var cKey = null;
@@ -52,7 +53,7 @@ var objectValue = function(key,obj,value){
 		local = local[cKey]
 	}
 	cKey = key[key.length-1];
-	local[cKey] = value;
+	local[cKey] = mValue || value;
 }
 var bindFunction = Meteor.bindEnvironment(function(err, row_data){
 	var myLanguage = {};
@@ -64,7 +65,7 @@ var bindFunction = Meteor.bindEnvironment(function(err, row_data){
 				if(validKey(key)){
 					if(!myLanguage[key])
 						myLanguage[key] = {};
-					objectValue(gkey,myLanguage[key],row_data[i][key]);
+					objectValue(gkey,myLanguage[key],row_data[i][key], row_data[i][key+"m"]);
 				}
 			}
 		}
@@ -73,4 +74,4 @@ var bindFunction = Meteor.bindEnvironment(function(err, row_data){
 			Language.beforeInsert(myLanguage[key]);
 		}
 	}
-})
+});
